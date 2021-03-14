@@ -1,13 +1,9 @@
 # Telegram-Anti-Revoke
 
-<!--
-[![Version](https://img.shields.io/badge/beta-v0.1.3-blue.svg)](https://github.com/SpriteOvO/Telegram-Anti-Revoke/releases)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SpriteOvO/Telegram-Anti-Revoke/pulls)
--->
-[![Platform](https://img.shields.io/badge/platform-windows-orange.svg)](https://github.com/SpriteOvO/Telegram-Anti-Revoke)
-[![Version](https://img.shields.io/github/v/release/SpriteOvO/Telegram-Anti-Revoke)](https://github.com/SpriteOvO/Telegram-Anti-Revoke/releases)
-[![Downloads](https://img.shields.io/github/downloads/SpriteOvO/Telegram-Anti-Revoke/total.svg)](https://github.com/SpriteOvO/Telegram-Anti-Revoke/releases)
-[![License](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
+[![](https://img.shields.io/badge/platform-windows-orange.svg)](https://github.com/SpriteOvO/Telegram-Anti-Revoke)
+[![](https://img.shields.io/github/v/release/SpriteOvO/Telegram-Anti-Revoke)](https://github.com/SpriteOvO/Telegram-Anti-Revoke/releases)
+[![](https://img.shields.io/github/downloads/SpriteOvO/Telegram-Anti-Revoke/total.svg)](https://github.com/SpriteOvO/Telegram-Anti-Revoke/releases)
+[![](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 
 :earth_americas: English | :earth_asia: [简体中文](/README-CN.md)
 
@@ -20,13 +16,14 @@ Telegram local messages anti-revoke plugin.
 * Prevent local messages from being revoked by the server.
 * Revoked messages will be marked as "deleted".
 * The plugin has excellent compatibility.
-* Mark content supports multi-language automatic recognition.  
-Automatic recognition is currently supported:   
-*English, Simplified Chinese, Traditional Chinese, Japanese, Korean*
+* Multi-language support.  
 
 ## :tomato: Compatibility
-Currently only compatible with **Windows Telegram v1.9.0 ~ v2.4.1** or higher.  
-If you are using **Telegram beta**, please download the latest preview version.
+Usually the plugin is not affected by small updates of Telegram.  
+But some updates may cause the plugin to error or crash, please [report the issue](https://github.com/SpriteOvO/Telegram-Anti-Revoke/issues) and wait for the plugin to be updated.
+
+If you are using **Telegram beta**, please check the latest preview version.  
+(Compatibility updates for **Telegram beta** may not be released in time)
 
 ## :hamburger: Usage
 1. Go to the [Release Page](https://github.com/SpriteOvO/Telegram-Anti-Revoke/releases) to download the latest version of the plugin.  
@@ -35,29 +32,16 @@ If you are using **Telegram beta**, please download the latest preview version.
 4. Run the Telegram program.
 
 ## :bug: Report
-Please use the [Issue Tracker](https://github.com/SpriteOvO/Telegram-Anti-Revoke/issues) for reporting problems or suggesting new features.
-
-<!--
-If a crash occurs, please provide the following information when reporting a problem:
-* *ArLog.txt* file. (In the same directory as the *version.dll* file.)
-* Which version of Telegram are you using?
-* Which operating system are you using?
-* Did you do anything when it crashed?
-* Reproduce the steps of the crash? (optional)
-* More useful information?
--->
-
-If Telegram releases a new version update and the change is large, the plugin may go wrong or cause a crash.  
-Please report an issue and wait for plugin update.
-<!--Don't repeat reports on reported issues, thank you!-->
+Please use the [Issue Tracker](https://github.com/SpriteOvO/Telegram-Anti-Revoke/issues) to report issues or suggest new features.  
+To avoid duplication of issues, please check existing issues before submitting.
 
 ## :gem: ThirdParty
 * JsonCpp ([MIT License](https://github.com/open-source-parsers/jsoncpp/blob/master/LICENSE))
-* MinHook ([BSD License](https://github.com/TsudaKageyu/minhook/blob/master/LICENSE.txt))
+* MinHook ([BSD 2-Clause License](https://github.com/TsudaKageyu/minhook/blob/master/LICENSE.txt))
 
 ## :beer: Acknowledgments
-* Thanks to [采蘑菇的小蘑菇] for providing help with compiling Telegram.
-* Thanks to [dummycatz] for pointing out the cause of cross-module malloc/free crash.
+* Thanks to *采蘑菇的小蘑菇* for providing help with compiling Telegram.
+* Thanks to *dummycatz* for pointing out the cause of cross-module `malloc` / `free` crash.
 
 ## :warning: Warning
 This open source project and plugin is unofficial and is for educational purposes only.

@@ -1,88 +1,81 @@
-﻿#include "Header.h"
-#include "QtString.h"
-#include "Global.h"
+﻿#include "QtString.h"
+#include "IRuntime.h"
+#include "IAntiRevoke.h"
 
 
 QtString::QtString()
 {
 }
 
-QtString::QtString(const WCHAR *String)
+QtString::QtString(const wchar_t *String)
 {
-	MakeString(String);
+    MakeString(String);
 }
 
-BOOLEAN QtString::IsValidTime()
+bool QtString::IsValidTime()
 {
-	// Check valid
-	return !IsBadReadPtr(d, sizeof(PVOID)) && !IsBadReadPtr((PVOID)((ULONG_PTR)d + d->offset), sizeof(QtArrayData) + 12) &&
-		GetRefCount() <= 1 &&
-		wcslen(GetText()) <= 8; // Fixed for 12h format. ("12:34 AM" / "12:34 PM")
+    // Check valid
+    return d != NULL && !IsBadReadPtr(d, sizeof(void*)) && !IsBadReadPtr((void*)((uintptr_t)d + d->offset), sizeof(QtArrayData) + 12) &&
+        GetRefCount() <= 1 &&
+        wcslen(GetText()) <= 8; // Fixed for 12h format. ("12:34 AM" / "12:34 PM")
 }
 
-WCHAR* QtString::GetText()
+wchar_t* QtString::GetText()
 {
-	return (WCHAR*)((ULONG_PTR)d + d->offset);
+    return (wchar_t*)((uintptr_t)d + d->offset);
 }
 
-BOOLEAN QtString::IsEmpty()
+bool QtString::IsEmpty()
 {
-	return wcscmp(GetText(), L"") == 0;
+    return wcscmp(GetText(), L"") == 0;
 }
 
-//INT QtString::Find(const WCHAR *String)
-//{
-//	WCHAR *TimeText = GetText();
-//	WCHAR *Result = wcsstr(TimeText, String);
-//
-//	return (Result == NULL) ? -1 : (Result - TimeText);
-//}
-
-SIZE_T QtString::Find(wstring String)
+size_t QtString::Find(const std::wstring &String)
 {
-	return wstring(GetText()).find(String);
+    return std::wstring(GetText()).find(String);
 }
 
-INT QtString::GetRefCount()
+int32_t QtString::GetRefCount()
 {
-	return d->ref;
+    return d->ref;
 }
 
-void QtString::MakeString(const WCHAR *String)
+void QtString::MakeString(const wchar_t *String)
 {
-	SIZE_T Length = wcslen(String);
-	SIZE_T StrBytes = (Length + 1) * sizeof(WCHAR);
-	SIZE_T DataBytes = sizeof(QtArrayData) + StrBytes;
+    size_t Length = wcslen(String);
+    size_t StrBytes = (Length + 1) * sizeof(wchar_t);
+    size_t DataBytes = sizeof(QtArrayData) + StrBytes;
 
-	// Thanks to [dummycatz] for pointing out the reason for the error in malloc/free memory across modules.
-	d = (QtArrayData *)g::fnMalloc(DataBytes);
-	RtlZeroMemory(d, DataBytes);
+    // Thanks to [dummycatz] for pointing out the cause of cross-module malloc/free crash.
+    //
+    d = (QtArrayData *)IRuntime::GetInstance().GetData().Function.Malloc(DataBytes);
+    memset(d, 0, DataBytes);
 
-	d->ref = 1;
-	d->size = Length;
-	d->alloc = Length + 1;
-	d->capacityReserved = 0;
-	d->offset = sizeof(QtArrayData);
+    d->ref = 1;
+    d->size = Length;
+    d->alloc = Length + 1;
+    d->capacityReserved = 0;
+    d->offset = sizeof(QtArrayData);
 
-	RtlCopyMemory(GetText(), String, StrBytes);
+    memcpy(GetText(), String, StrBytes);
 }
 
 void QtString::Swap(QtString *Dst)
 {
-	QtArrayData *SaveData = Dst->d;
+    QtArrayData *SaveData = Dst->d;
 
-	Dst->d = d;
-	d = SaveData;
+    Dst->d = d;
+    d = SaveData;
 }
 
-void QtString::Replace(const WCHAR *NewContent)
+void QtString::Replace(const wchar_t *NewContent)
 {
-	QtString NewText(NewContent);
-	NewText.Swap(this);
-	NewText.Clear();
+    QtString NewText(NewContent);
+    NewText.Swap(this);
+    NewText.Clear();
 }
 
 void QtString::Clear()
 {
-	g::fnOriginalFree(d);
+    IAntiRevoke::GetInstance().CallFree(d);
 }
